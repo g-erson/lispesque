@@ -1,5 +1,8 @@
 module Types where
 
+import Text.ParserCombinators.Parsec hiding (spaces)
+import Control.Monad.Except
+
 data LispVal = Atom String
              | List [LispVal]
              | DottedList [LispVal] LispVal
@@ -8,6 +11,16 @@ data LispVal = Atom String
              | Bool Bool
              | Char Char
 
+data LispError = NumArgs Integer [LispVal]
+               | TypeMismatch String LispVal
+               | Parser ParseError
+               | BadSpecialForm String LispVal
+               | NotFunction String String
+               | UnboundVar String String
+               | Default String
+
+-- Nicer Show instance than deriving 
+--
 showL :: [LispVal] -> String
 showL = unwords . map show 
 

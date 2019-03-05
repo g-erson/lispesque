@@ -6,7 +6,7 @@ import Evaluator
 import Types
 
 
---Main parser
+--Main Parser
 
 main :: IO ()
 main = getArgs >>= print . eval . readExp . head
