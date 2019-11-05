@@ -19,10 +19,22 @@ data LispError = NumArgs Integer [LispVal]
                | UnboundVar String String
                | Default String
 
+type ThrowsError = Either LispError
+
 -- Nicer Show instance than deriving 
---
 showL :: [LispVal] -> String
 showL = unwords . map show 
+
+instance Show LispError where 
+  show (UnboundVar message varname)  = message <> ": " <> varname
+  show (BadSpecialForm message form) = message <> ": " <> show form
+  show (NotFunction message func)    = message <> ": " <> show func
+  show (NumArgs expected found)      = "Expected " <> show expected 
+                                            <> " args; found values " <> showL found
+  show (TypeMismatch expected found) = "Invalid type: expected " <> expected
+                                        <> ", found " <> show found
+  show (Parser parseErr)             = "Parse error at " <> show parseErr
+
 
 instance Show LispVal where
   show (String contents) = "\"" <> contents <> "\""

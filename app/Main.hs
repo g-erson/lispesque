@@ -5,7 +5,6 @@ import Text.ParserCombinators.Parsec hiding (spaces)
 import Evaluator
 import Types
 
-
 --Main Parser
 
 main :: IO ()
